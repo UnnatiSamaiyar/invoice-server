@@ -1,0 +1,543 @@
+// Prisma schema for InvoicePro Phase 1.12
+// A new developer can run `npx prisma migrate dev` with DATABASE_URL set and create the full local database.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CompanyRole {
+  OWNER
+  ADMIN
+  STAFF
+}
+
+enum ClientStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum ItemType {
+  PRODUCT
+  SERVICE
+}
+
+enum ItemStatus {
+  ACTIVE
+  INACTIVE
+}
+
+
+enum TaxProfileType {
+  NO_TAX
+  INDIA_GST
+  GENERIC_VAT
+  GENERIC_SALES_TAX
+  CUSTOM
+}
+
+enum TaxCalculationMode {
+  EXCLUSIVE
+  INCLUSIVE
+}
+
+enum TaxApplicationLevel {
+  ITEM_LEVEL
+  INVOICE_LEVEL
+}
+
+enum TaxProfileStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum TaxComponentType {
+  CGST
+  SGST
+  IGST
+  VAT
+  SALES_TAX
+  CUSTOM
+}
+
+
+enum InvoiceStatus {
+  DRAFT
+  FINALIZED
+  SENT
+  PAID
+  PARTIALLY_PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum DiscountType {
+  AMOUNT
+  PERCENT
+}
+
+enum PaymentMode {
+  CASH
+  BANK_TRANSFER
+  UPI
+  CARD
+  CHEQUE
+  ONLINE
+  OTHER
+}
+
+
+enum BillEntryStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum BillMatchStatus {
+  UNMATCHED
+  SUGGESTED
+  MATCHED
+  DISCREPANCY
+  IGNORED
+}
+
+enum BillDiscrepancyType {
+  AMOUNT_MISMATCH
+  TAX_MISMATCH
+  DUPLICATE_BILL
+  PAYMENT_MISSING
+  INVOICE_MISSING
+  SOA_AMOUNT_MISMATCH
+}
+
+enum InvoiceTemplateStyle {
+  CLASSIC
+  MODERN
+  PREMIUM
+}
+
+enum InvoiceDocumentTitle {
+  INVOICE
+  TAX_INVOICE
+  BILL
+}
+
+model User {
+  id                    String          @id @default(cuid())
+  name                  String?
+  email                 String          @unique
+  phone                 String?
+  avatarDataUrl          String?         @db.Text
+  timezone              String          @default("Asia/Kolkata")
+  language              String          @default("en")
+  emailNotifications    Boolean         @default(true)
+  securityNotifications Boolean         @default(true)
+  passwordHash          String
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  memberships           CompanyMember[]
+  notificationReads     NotificationRead[]
+
+  @@map("users")
+}
+
+model Company {
+  id                    String          @id @default(cuid())
+  name                  String
+  legalName             String?
+
+  businessType          String?
+  registrationNumber    String?
+  defaultInvoiceTitle   InvoiceDocumentTitle @default(INVOICE)
+  defaultPaymentTerms   String          @default("Net 30")
+  defaultTermsAndConditions String?     @db.Text
+  footerNote            String?         @db.Text
+  accountHolderName     String?
+  upiId                 String?
+  paymentNote           String?         @db.Text
+  showBankDetailsOnInvoice Boolean      @default(true)
+  showQrCodeOnInvoice   Boolean         @default(true)
+  manualInvoiceNumberEnabled Boolean    @default(false)
+  workEmail             String?
+  phone                 String?
+  website               String?
+  addressLine1          String?
+  addressLine2          String?
+  city                  String?
+  state                 String?
+  postalCode            String?
+  country               String          @default("India")
+  currency              String          @default("INR")
+  taxRegion             String?
+  taxNumber             String?
+  bankName              String?
+  bankAccountNumber     String?
+  bankIfscOrSwift       String?
+  invoicePrefix         String          @default("INV-")
+  invoiceStartingNumber Int             @default(1001)
+  defaultInvoiceFooter  String?
+  logoDataUrl           String?         @db.Text
+  signatureDataUrl      String?         @db.Text
+  qrCodeDataUrl         String?         @db.Text
+  isOnboarded           Boolean         @default(false)
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  members               CompanyMember[]
+  clients               Client[]
+  items                 ProductItem[]
+  taxProfiles           TaxProfile[]
+  invoices              Invoice[]
+  payments              InvoicePayment[]
+  billEntries           BillEntry[]
+  invoiceTemplateSetting InvoiceTemplateSetting?
+  notificationReads     NotificationRead[]
+
+  @@map("companies")
+}
+
+model CompanyMember {
+  id        String      @id @default(cuid())
+  userId    String
+  companyId String
+  role      CompanyRole @default(ADMIN)
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company   Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@index([companyId])
+  @@index([userId])
+  @@map("company_members")
+}
+
+model Client {
+  id                    String       @id @default(cuid())
+  companyId             String
+  companyName           String
+  contactPerson         String?
+  email                 String?
+  phone                 String?
+  industry              String?
+  taxId                 String?
+  billingAddressLine1   String?
+  billingAddressLine2   String?
+  billingCity           String?
+  billingState          String?
+  billingPostalCode     String?
+  billingCountry        String?      @default("India")
+  shippingSameAsBilling Boolean      @default(true)
+  shippingAddressLine1  String?
+  shippingAddressLine2  String?
+  shippingCity          String?
+  shippingState         String?
+  shippingPostalCode    String?
+  shippingCountry       String?      @default("India")
+  defaultCurrency       String       @default("INR")
+  paymentTerms          String       @default("Net 30")
+  notes                 String?      @db.Text
+  status                ClientStatus @default(ACTIVE)
+  archivedAt            DateTime?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  company               Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invoices              Invoice[]
+
+  @@index([companyId])
+  @@index([companyId, status])
+  @@index([companyId, companyName])
+  @@map("clients")
+}
+
+
+model ProductItem {
+  id          String     @id @default(cuid())
+  companyId   String
+  type        ItemType   @default(SERVICE)
+  name        String
+  description String?    @db.Text
+  hsnSacSku   String?
+  unit        String     @default("PCS")
+  defaultPrice Decimal   @default(0) @db.Decimal(14, 2)
+  defaultTax          Decimal     @default(0) @db.Decimal(7, 2)
+  defaultTaxProfileId String?
+  status              ItemStatus  @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  company            Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  defaultTaxProfile  TaxProfile? @relation(fields: [defaultTaxProfileId], references: [id], onDelete: SetNull)
+  invoiceLineItems   InvoiceLineItem[]
+
+  @@index([companyId])
+  @@index([companyId, status])
+  @@index([companyId, type])
+  @@index([companyId, name])
+  @@index([defaultTaxProfileId])
+  @@map("product_items")
+}
+
+model TaxProfile {
+  id                 String               @id @default(cuid())
+  companyId          String
+  name               String
+  type               TaxProfileType       @default(CUSTOM)
+  country            String?
+  region             String?
+  taxNumberLabel     String?
+  taxNumber          String?
+  hsnSacRequired     Boolean              @default(false)
+  defaultRate        Decimal              @default(0) @db.Decimal(7, 2)
+  calculationMode    TaxCalculationMode   @default(EXCLUSIVE)
+  applicationLevel   TaxApplicationLevel  @default(ITEM_LEVEL)
+  isDefault          Boolean              @default(false)
+  status             TaxProfileStatus     @default(ACTIVE)
+  notes              String?              @db.Text
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  company            Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  components         TaxRateComponent[]
+  productItems       ProductItem[]
+  invoiceTaxProfiles Invoice[] @relation("InvoiceInvoiceLevelTaxProfile")
+  invoiceLineItems   InvoiceLineItem[] @relation("InvoiceLineTaxProfile")
+
+  @@index([companyId])
+  @@index([companyId, status])
+  @@index([companyId, type])
+  @@index([companyId, isDefault])
+  @@map("tax_profiles")
+}
+
+model TaxRateComponent {
+  id           String           @id @default(cuid())
+  taxProfileId String
+  name         String
+  type         TaxComponentType @default(CUSTOM)
+  rate         Decimal          @default(0) @db.Decimal(7, 2)
+  sortOrder    Int              @default(0)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  taxProfile   TaxProfile       @relation(fields: [taxProfileId], references: [id], onDelete: Cascade)
+
+  @@index([taxProfileId])
+  @@map("tax_rate_components")
+}
+
+model InvoiceTemplateSetting {
+  id             String               @id @default(cuid())
+  companyId      String               @unique
+  templateStyle  InvoiceTemplateStyle @default(CLASSIC)
+  documentTitle  InvoiceDocumentTitle @default(INVOICE)
+  brandColor     String               @default("#0B57D0")
+  showLogo       Boolean              @default(true)
+  showSignature  Boolean              @default(false)
+  showQrCode     Boolean              @default(true)
+  showBankDetails Boolean             @default(true)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  company        Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@map("invoice_template_settings")
+}
+
+model Invoice {
+  id                       String               @id @default(cuid())
+  companyId                String
+  clientId                 String?
+  invoiceNumber            String
+  invoiceDate              DateTime
+  dueDate                  DateTime?
+  status                   InvoiceStatus        @default(DRAFT)
+  currency                 String               @default("INR")
+  notes                    String?              @db.Text
+  terms                    String?              @db.Text
+  discountType             DiscountType         @default(AMOUNT)
+  discountValue            Decimal              @default(0) @db.Decimal(14, 2)
+  discountTotal            Decimal              @default(0) @db.Decimal(14, 2)
+  subTotal                 Decimal              @default(0) @db.Decimal(14, 2)
+  taxableAmount            Decimal              @default(0) @db.Decimal(14, 2)
+  taxTotal                 Decimal              @default(0) @db.Decimal(14, 2)
+  grandTotal               Decimal              @default(0) @db.Decimal(14, 2)
+  amountPaid               Decimal              @default(0) @db.Decimal(14, 2)
+  amountDue                Decimal              @default(0) @db.Decimal(14, 2)
+  taxCalculationMode       TaxCalculationMode   @default(EXCLUSIVE)
+  taxApplicationLevel      TaxApplicationLevel  @default(ITEM_LEVEL)
+  invoiceLevelTaxProfileId String?
+  invoiceTaxBreakdown      Json?
+  templateStyle            InvoiceTemplateStyle @default(CLASSIC)
+  documentTitle            InvoiceDocumentTitle @default(INVOICE)
+  brandColor               String               @default("#0B57D0")
+  showLogo                 Boolean              @default(true)
+  showSignature            Boolean              @default(false)
+  showQrCode               Boolean              @default(true)
+  showBankDetails          Boolean              @default(true)
+  finalizedAt              DateTime?
+  sentAt                   DateTime?
+  paidAt                   DateTime?
+  cancelledAt              DateTime?
+  pdfFileName              String?
+  pdfFilePath              String?
+  pdfGeneratedAt           DateTime?
+  createdAt                DateTime             @default(now())
+  updatedAt                DateTime             @updatedAt
+  company                  Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  client                   Client?              @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  invoiceLevelTaxProfile   TaxProfile?          @relation("InvoiceInvoiceLevelTaxProfile", fields: [invoiceLevelTaxProfileId], references: [id], onDelete: SetNull)
+  lineItems                InvoiceLineItem[]
+  payments                 InvoicePayment[]
+  matchedBillEntries       BillEntry[]
+  billMatchSuggestions     BillMatchSuggestion[]
+
+  @@unique([companyId, invoiceNumber])
+  @@index([companyId])
+  @@index([companyId, status])
+  @@index([companyId, clientId])
+  @@index([companyId, invoiceDate])
+  @@index([companyId, pdfGeneratedAt])
+  @@index([invoiceLevelTaxProfileId])
+  @@map("invoices")
+}
+
+model InvoicePayment {
+  id              String      @id @default(cuid())
+  companyId       String
+  invoiceId       String
+  paymentDate     DateTime
+  paymentMode     PaymentMode @default(UPI)
+  referenceNumber String?
+  amountReceived  Decimal     @db.Decimal(14, 2)
+  notes           String?     @db.Text
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  company         Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invoice         Invoice     @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([companyId, paymentDate])
+  @@index([invoiceId])
+  @@map("invoice_payments")
+}
+
+model InvoiceLineItem {
+  id           String       @id @default(cuid())
+  invoiceId    String
+  productItemId String?
+  taxProfileId String?
+  lineNo       Int
+  itemName     String
+  description  String?      @db.Text
+  hsnSacSku    String?
+  unit         String       @default("PCS")
+  quantity     Decimal      @default(1) @db.Decimal(14, 3)
+  rate         Decimal      @default(0) @db.Decimal(14, 2)
+  discountType  DiscountType @default(AMOUNT)
+  discountValue Decimal      @default(0) @db.Decimal(14, 2)
+  discountTotal Decimal      @default(0) @db.Decimal(14, 2)
+  subTotal     Decimal      @default(0) @db.Decimal(14, 2)
+  taxableAmount Decimal     @default(0) @db.Decimal(14, 2)
+  taxRate      Decimal      @default(0) @db.Decimal(7, 2)
+  taxAmount    Decimal      @default(0) @db.Decimal(14, 2)
+  totalAmount  Decimal      @default(0) @db.Decimal(14, 2)
+  taxBreakdown Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  invoice      Invoice      @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  productItem  ProductItem? @relation(fields: [productItemId], references: [id], onDelete: SetNull)
+  taxProfile   TaxProfile?  @relation("InvoiceLineTaxProfile", fields: [taxProfileId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId])
+  @@index([productItemId])
+  @@index([taxProfileId])
+  @@map("invoice_line_items")
+}
+
+model BillEntry {
+  id               String          @id @default(cuid())
+  companyId        String
+  invoiceId        String?
+  partyName        String
+  billNumber       String
+  billDate         DateTime
+  amount           Decimal         @default(0) @db.Decimal(14, 2)
+  taxAmount        Decimal         @default(0) @db.Decimal(14, 2)
+  totalAmount      Decimal         @default(0) @db.Decimal(14, 2)
+  paymentReference String?
+  notes            String?         @db.Text
+  status           BillEntryStatus @default(ACTIVE)
+  matchStatus      BillMatchStatus @default(UNMATCHED)
+  matchedAt        DateTime?
+  archivedAt       DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  company          Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invoice          Invoice?        @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  suggestions      BillMatchSuggestion[]
+  discrepancies    BillDiscrepancyFlag[]
+
+  @@index([companyId])
+  @@index([companyId, status])
+  @@index([companyId, matchStatus])
+  @@index([companyId, billDate])
+  @@index([companyId, partyName])
+  @@index([companyId, billNumber])
+  @@index([invoiceId])
+  @@map("bill_entries")
+}
+
+model BillMatchSuggestion {
+  id          String    @id @default(cuid())
+  companyId   String
+  billEntryId String
+  invoiceId   String?
+  score       Int       @default(0)
+  ruleHits    String[]  @default([])
+  reasons     Json?
+  createdAt   DateTime  @default(now())
+  billEntry   BillEntry @relation(fields: [billEntryId], references: [id], onDelete: Cascade)
+  invoice     Invoice?  @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+
+  @@index([companyId])
+  @@index([billEntryId])
+  @@index([invoiceId])
+  @@index([companyId, score])
+  @@map("bill_match_suggestions")
+}
+
+model BillDiscrepancyFlag {
+  id          String              @id @default(cuid())
+  companyId   String
+  billEntryId String
+  type        BillDiscrepancyType
+  message     String
+  severity    String              @default("MEDIUM")
+  resolved    Boolean             @default(false)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  billEntry   BillEntry           @relation(fields: [billEntryId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([billEntryId])
+  @@index([companyId, type])
+  @@map("bill_discrepancy_flags")
+}
+
+
+
+model NotificationRead {
+  id             String   @id @default(cuid())
+  userId         String
+  companyId      String
+  notificationKey String
+  readAt         DateTime @default(now())
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId, notificationKey])
+  @@index([companyId])
+  @@index([userId])
+  @@map("notification_reads")
+}
