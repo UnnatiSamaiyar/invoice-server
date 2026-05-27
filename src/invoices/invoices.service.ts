@@ -12,6 +12,7 @@ type InvoiceStatusValue =
   | 'SENT'
   | 'PAID'
   | 'PARTIALLY_PAID'
+  | 'ADVANCE_CREDIT'
   | 'OVERDUE'
   | 'CANCELLED';
 
@@ -42,6 +43,9 @@ type PaymentPayload = {
   paymentDate?: string;
   paymentMode?: PaymentModeValue;
   referenceNumber?: string;
+  paymentProofDataUrl?: string;
+  paymentProofFileName?: string;
+  paymentProofMimeType?: string;
   notes?: string;
 };
 
@@ -81,6 +85,7 @@ const invoiceStatuses: InvoiceStatusValue[] = [
   'SENT',
   'PAID',
   'PARTIALLY_PAID',
+  'ADVANCE_CREDIT',
   'OVERDUE',
   'CANCELLED',
 ];
@@ -148,7 +153,7 @@ export class InvoicesService {
       (this.prisma as any).invoice.aggregate({
         where: {
           companyId: membership.companyId,
-          status: { in: ['FINALIZED', 'SENT', 'PARTIALLY_PAID', 'OVERDUE'] },
+          status: { in: ['FINALIZED', 'SENT', 'PARTIALLY_PAID', 'ADVANCE_CREDIT', 'OVERDUE'] },
         },
         _sum: { amountDue: true },
       }),
@@ -172,6 +177,7 @@ export class InvoicesService {
         sentCount: statusCounts.SENT,
         paidCount: statusCounts.PAID,
         partiallyPaidCount: statusCounts.PARTIALLY_PAID,
+        advanceCreditCount: statusCounts.ADVANCE_CREDIT,
         overdueCount: statusCounts.OVERDUE,
         cancelledCount: statusCounts.CANCELLED,
         totalGrandTotal: this.numberValue((totalGrandTotal as any)._sum.grandTotal),
@@ -311,14 +317,9 @@ export class InvoicesService {
     this.ensurePaymentCanBeRecorded(invoice);
 
     const amountReceived = this.numberFrom(body.amountReceived, 'Amount received', 0.01, 999999999999);
-    const amountDue = this.currentAmountDue(invoice);
-
-    if (amountReceived > amountDue + 0.009) {
-      throw new BadRequestException(`Amount received cannot be greater than due amount (${this.round2(amountDue)})`);
-    }
-
     const paymentDate = this.dateFrom(body.paymentDate, 'Payment date') || new Date();
     const paymentMode = this.normalizeEnum(body.paymentMode || 'UPI', paymentModes, 'Payment mode') as PaymentModeValue;
+    const proof = this.normalizePaymentProof(body);
 
     const payment = await (this.prisma as any).invoicePayment.create({
       data: {
@@ -328,18 +329,22 @@ export class InvoicesService {
         paymentMode,
         referenceNumber: this.cleanOptionalString(body.referenceNumber) || null,
         amountReceived: this.round2(amountReceived),
+        paymentProofDataUrl: proof.paymentProofDataUrl,
+        paymentProofFileName: proof.paymentProofFileName,
+        paymentProofMimeType: proof.paymentProofMimeType,
         notes: this.cleanOptionalString(body.notes) || null,
       },
     });
 
     const updatedInvoice = await this.recalculateInvoicePaymentState(invoice.id, membership.companyId);
+    const summary = this.paymentSummary(updatedInvoice, updatedInvoice.payments || []);
 
     return {
       invoice: this.serializeInvoice(updatedInvoice),
       payment: this.serializePayment(payment),
       payments: (updatedInvoice.payments || []).map((entry: any) => this.serializePayment(entry)),
-      summary: this.paymentSummary(updatedInvoice, updatedInvoice.payments || []),
-      message: updatedInvoice.status === 'PAID' ? 'Invoice marked as paid' : 'Partial payment recorded',
+      summary,
+      message: summary.creditAmount > 0 ? 'Payment recorded with advance credit' : updatedInvoice.status === 'PAID' ? 'Invoice marked as paid' : 'Partial payment recorded',
     };
   }
 
@@ -362,6 +367,7 @@ export class InvoicesService {
           paymentMode,
           referenceNumber: this.cleanOptionalString(body.referenceNumber) || null,
           amountReceived: this.round2(amountDue),
+          ...this.normalizePaymentProof(body),
           notes: this.cleanOptionalString(body.notes) || null,
         },
       });
@@ -495,7 +501,7 @@ export class InvoicesService {
         showSignature: templateSettings.showSignature,
         showQrCode: templateSettings.showQrCode,
         showBankDetails: templateSettings.showBankDetails,
-        finalizedAt: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'OVERDUE'].includes(status) ? now : null,
+        finalizedAt: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'ADVANCE_CREDIT', 'OVERDUE'].includes(status) ? now : null,
         sentAt: status === 'SENT' ? now : null,
         paidAt: status === 'PAID' ? now : null,
         cancelledAt: status === 'CANCELLED' ? now : null,
@@ -842,10 +848,6 @@ export class InvoicesService {
     if (invoice.status === 'CANCELLED') {
       throw new BadRequestException('Payments cannot be recorded against a cancelled invoice');
     }
-
-    if (this.currentAmountDue(invoice) <= 0) {
-      throw new BadRequestException('This invoice has no due amount left');
-    }
   }
 
   private currentAmountDue(invoice: any) {
@@ -868,7 +870,8 @@ export class InvoicesService {
     const grandTotal = this.numberValue(invoice.grandTotal);
     const rawAmountPaid = this.round2(payments.reduce((sum: number, payment: any) => sum + this.numberValue(payment.amountReceived), 0));
     const amountPaid = this.round2(Math.min(rawAmountPaid, grandTotal));
-    const amountDue = this.round2(Math.max(grandTotal - amountPaid, 0));
+    const creditAmount = this.round2(Math.max(rawAmountPaid - grandTotal, 0));
+    const amountDue = this.round2(Math.max(grandTotal - rawAmountPaid, 0));
     const latestPaymentDate = payments.reduce<Date | null>((latest, payment: any) => {
       const date = payment.paymentDate ? new Date(payment.paymentDate) : null;
       if (!date || Number.isNaN(date.getTime())) return latest;
@@ -878,7 +881,9 @@ export class InvoicesService {
 
     let status = invoice.status;
     if (status !== 'DRAFT' && status !== 'CANCELLED') {
-      if (grandTotal > 0 && amountDue <= 0) {
+      if (grandTotal > 0 && creditAmount > 0) {
+        status = 'ADVANCE_CREDIT';
+      } else if (grandTotal > 0 && amountDue <= 0) {
         status = 'PAID';
       } else if (amountPaid > 0) {
         status = 'PARTIALLY_PAID';
@@ -892,8 +897,9 @@ export class InvoicesService {
       data: {
         amountPaid,
         amountDue,
+        creditAmount,
         status,
-        paidAt: status === 'PAID' ? (invoice.paidAt || latestPaymentDate || new Date()) : null,
+        paidAt: ['PAID', 'ADVANCE_CREDIT'].includes(status) ? (invoice.paidAt || latestPaymentDate || new Date()) : null,
       },
       include: this.invoiceInclude(),
     });
@@ -918,8 +924,47 @@ export class InvoicesService {
       amountReceived: this.round2(payments.reduce((sum, payment) => sum + this.numberValue(payment.amountReceived), 0)),
       amountPaid: this.numberValue(invoice.amountPaid),
       amountDue: this.numberValue(invoice.amountDue),
+      creditAmount: this.numberValue(invoice.creditAmount),
       grandTotal: this.numberValue(invoice.grandTotal),
       lastPaymentDate: payments[0]?.paymentDate || null,
+    };
+  }
+
+
+  private normalizePaymentProof(body: PaymentPayload) {
+    const dataUrl = this.cleanOptionalString(body.paymentProofDataUrl);
+    const fileName = this.cleanOptionalString(body.paymentProofFileName);
+    const mimeType = this.cleanOptionalString(body.paymentProofMimeType);
+
+    if (!dataUrl) {
+      return {
+        paymentProofDataUrl: null,
+        paymentProofFileName: null,
+        paymentProofMimeType: null,
+      };
+    }
+
+    const allowed = [
+      'image/png',
+      'image/jpeg',
+      'image/jpg',
+      'image/webp',
+      'application/pdf',
+    ];
+
+    const detectedMime = mimeType || (dataUrl.match(/^data:([^;]+);base64,/i)?.[1] ?? '');
+    if (!allowed.includes(detectedMime.toLowerCase())) {
+      throw new BadRequestException('Payment proof must be PNG, JPG, WEBP, or PDF');
+    }
+
+    if (dataUrl.length > 2_500_000) {
+      throw new BadRequestException('Payment proof file is too large. Please upload a file under 2 MB.');
+    }
+
+    return {
+      paymentProofDataUrl: dataUrl,
+      paymentProofFileName: fileName || 'payment-proof',
+      paymentProofMimeType: detectedMime,
     };
   }
 
@@ -994,6 +1039,9 @@ export class InvoicesService {
       paymentMode: payment.paymentMode,
       referenceNumber: payment.referenceNumber,
       amountReceived: this.numberValue(payment.amountReceived),
+      paymentProofDataUrl: payment.paymentProofDataUrl,
+      paymentProofFileName: payment.paymentProofFileName,
+      paymentProofMimeType: payment.paymentProofMimeType,
       notes: payment.notes,
       createdAt: payment.createdAt,
       updatedAt: payment.updatedAt,
@@ -1021,6 +1069,7 @@ export class InvoicesService {
       grandTotal: this.numberValue(invoice.grandTotal),
       amountPaid: this.numberValue(invoice.amountPaid),
       amountDue: this.numberValue(invoice.amountDue),
+      creditAmount: this.numberValue(invoice.creditAmount),
       taxCalculationMode: invoice.taxCalculationMode,
       taxApplicationLevel: invoice.taxApplicationLevel,
       invoiceLevelTaxProfileId: invoice.invoiceLevelTaxProfileId,

@@ -35,6 +35,7 @@ export type InvoiceAvgAggregateOutputType = {
   grandTotal: runtime.Decimal | null
   amountPaid: runtime.Decimal | null
   amountDue: runtime.Decimal | null
+  creditAmount: runtime.Decimal | null
 }
 
 export type InvoiceSumAggregateOutputType = {
@@ -46,6 +47,7 @@ export type InvoiceSumAggregateOutputType = {
   grandTotal: runtime.Decimal | null
   amountPaid: runtime.Decimal | null
   amountDue: runtime.Decimal | null
+  creditAmount: runtime.Decimal | null
 }
 
 export type InvoiceMinAggregateOutputType = {
@@ -68,6 +70,7 @@ export type InvoiceMinAggregateOutputType = {
   grandTotal: runtime.Decimal | null
   amountPaid: runtime.Decimal | null
   amountDue: runtime.Decimal | null
+  creditAmount: runtime.Decimal | null
   taxCalculationMode: $Enums.TaxCalculationMode | null
   taxApplicationLevel: $Enums.TaxApplicationLevel | null
   invoiceLevelTaxProfileId: string | null
@@ -109,6 +112,7 @@ export type InvoiceMaxAggregateOutputType = {
   grandTotal: runtime.Decimal | null
   amountPaid: runtime.Decimal | null
   amountDue: runtime.Decimal | null
+  creditAmount: runtime.Decimal | null
   taxCalculationMode: $Enums.TaxCalculationMode | null
   taxApplicationLevel: $Enums.TaxApplicationLevel | null
   invoiceLevelTaxProfileId: string | null
@@ -150,6 +154,7 @@ export type InvoiceCountAggregateOutputType = {
   grandTotal: number
   amountPaid: number
   amountDue: number
+  creditAmount: number
   taxCalculationMode: number
   taxApplicationLevel: number
   invoiceLevelTaxProfileId: number
@@ -183,6 +188,7 @@ export type InvoiceAvgAggregateInputType = {
   grandTotal?: true
   amountPaid?: true
   amountDue?: true
+  creditAmount?: true
 }
 
 export type InvoiceSumAggregateInputType = {
@@ -194,6 +200,7 @@ export type InvoiceSumAggregateInputType = {
   grandTotal?: true
   amountPaid?: true
   amountDue?: true
+  creditAmount?: true
 }
 
 export type InvoiceMinAggregateInputType = {
@@ -216,6 +223,7 @@ export type InvoiceMinAggregateInputType = {
   grandTotal?: true
   amountPaid?: true
   amountDue?: true
+  creditAmount?: true
   taxCalculationMode?: true
   taxApplicationLevel?: true
   invoiceLevelTaxProfileId?: true
@@ -257,6 +265,7 @@ export type InvoiceMaxAggregateInputType = {
   grandTotal?: true
   amountPaid?: true
   amountDue?: true
+  creditAmount?: true
   taxCalculationMode?: true
   taxApplicationLevel?: true
   invoiceLevelTaxProfileId?: true
@@ -298,6 +307,7 @@ export type InvoiceCountAggregateInputType = {
   grandTotal?: true
   amountPaid?: true
   amountDue?: true
+  creditAmount?: true
   taxCalculationMode?: true
   taxApplicationLevel?: true
   invoiceLevelTaxProfileId?: true
@@ -427,6 +437,7 @@ export type InvoiceGroupByOutputType = {
   grandTotal: runtime.Decimal
   amountPaid: runtime.Decimal
   amountDue: runtime.Decimal
+  creditAmount: runtime.Decimal
   taxCalculationMode: $Enums.TaxCalculationMode
   taxApplicationLevel: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId: string | null
@@ -492,6 +503,7 @@ export type InvoiceWhereInput = {
   grandTotal?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFilter<"Invoice"> | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFilter<"Invoice"> | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -541,6 +553,7 @@ export type InvoiceOrderByWithRelationInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
   taxCalculationMode?: Prisma.SortOrder
   taxApplicationLevel?: Prisma.SortOrder
   invoiceLevelTaxProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -594,6 +607,7 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   grandTotal?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFilter<"Invoice"> | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFilter<"Invoice"> | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -643,6 +657,7 @@ export type InvoiceOrderByWithAggregationInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
   taxCalculationMode?: Prisma.SortOrder
   taxApplicationLevel?: Prisma.SortOrder
   invoiceLevelTaxProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -693,6 +708,7 @@ export type InvoiceScalarWhereWithAggregatesInput = {
   grandTotal?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeWithAggregatesFilter<"Invoice"> | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelWithAggregatesFilter<"Invoice"> | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
@@ -733,6 +749,7 @@ export type InvoiceCreateInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -781,6 +798,7 @@ export type InvoiceUncheckedCreateInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -825,6 +843,7 @@ export type InvoiceUpdateInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -873,6 +892,7 @@ export type InvoiceUncheckedUpdateInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -919,6 +939,7 @@ export type InvoiceCreateManyInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -959,6 +980,7 @@ export type InvoiceUpdateManyMutationInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1000,6 +1022,7 @@ export type InvoiceUncheckedUpdateManyInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1057,6 +1080,7 @@ export type InvoiceCountOrderByAggregateInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
   taxCalculationMode?: Prisma.SortOrder
   taxApplicationLevel?: Prisma.SortOrder
   invoiceLevelTaxProfileId?: Prisma.SortOrder
@@ -1088,6 +1112,7 @@ export type InvoiceAvgOrderByAggregateInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
 }
 
 export type InvoiceMaxOrderByAggregateInput = {
@@ -1110,6 +1135,7 @@ export type InvoiceMaxOrderByAggregateInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
   taxCalculationMode?: Prisma.SortOrder
   taxApplicationLevel?: Prisma.SortOrder
   invoiceLevelTaxProfileId?: Prisma.SortOrder
@@ -1151,6 +1177,7 @@ export type InvoiceMinOrderByAggregateInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
   taxCalculationMode?: Prisma.SortOrder
   taxApplicationLevel?: Prisma.SortOrder
   invoiceLevelTaxProfileId?: Prisma.SortOrder
@@ -1181,6 +1208,7 @@ export type InvoiceSumOrderByAggregateInput = {
   grandTotal?: Prisma.SortOrder
   amountPaid?: Prisma.SortOrder
   amountDue?: Prisma.SortOrder
+  creditAmount?: Prisma.SortOrder
 }
 
 export type InvoiceScalarRelationFilter = {
@@ -1405,6 +1433,7 @@ export type InvoiceCreateWithoutCompanyInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1451,6 +1480,7 @@ export type InvoiceUncheckedCreateWithoutCompanyInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -1526,6 +1556,7 @@ export type InvoiceScalarWhereInput = {
   grandTotal?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFilter<"Invoice"> | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFilter<"Invoice"> | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -1566,6 +1597,7 @@ export type InvoiceCreateWithoutClientInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1612,6 +1644,7 @@ export type InvoiceUncheckedCreateWithoutClientInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -1682,6 +1715,7 @@ export type InvoiceCreateWithoutInvoiceLevelTaxProfileInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1729,6 +1763,7 @@ export type InvoiceUncheckedCreateWithoutInvoiceLevelTaxProfileInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1798,6 +1833,7 @@ export type InvoiceCreateWithoutPaymentsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1845,6 +1881,7 @@ export type InvoiceUncheckedCreateWithoutPaymentsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -1904,6 +1941,7 @@ export type InvoiceUpdateWithoutPaymentsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1951,6 +1989,7 @@ export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1994,6 +2033,7 @@ export type InvoiceCreateWithoutLineItemsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2041,6 +2081,7 @@ export type InvoiceUncheckedCreateWithoutLineItemsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -2100,6 +2141,7 @@ export type InvoiceUpdateWithoutLineItemsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2147,6 +2189,7 @@ export type InvoiceUncheckedUpdateWithoutLineItemsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2190,6 +2233,7 @@ export type InvoiceCreateWithoutMatchedBillEntriesInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2237,6 +2281,7 @@ export type InvoiceUncheckedCreateWithoutMatchedBillEntriesInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -2296,6 +2341,7 @@ export type InvoiceUpdateWithoutMatchedBillEntriesInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2343,6 +2389,7 @@ export type InvoiceUncheckedUpdateWithoutMatchedBillEntriesInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2386,6 +2433,7 @@ export type InvoiceCreateWithoutBillMatchSuggestionsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2433,6 +2481,7 @@ export type InvoiceUncheckedCreateWithoutBillMatchSuggestionsInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -2492,6 +2541,7 @@ export type InvoiceUpdateWithoutBillMatchSuggestionsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2539,6 +2589,7 @@ export type InvoiceUncheckedUpdateWithoutBillMatchSuggestionsInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2583,6 +2634,7 @@ export type InvoiceCreateManyCompanyInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -2623,6 +2675,7 @@ export type InvoiceUpdateWithoutCompanyInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2669,6 +2722,7 @@ export type InvoiceUncheckedUpdateWithoutCompanyInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2714,6 +2768,7 @@ export type InvoiceUncheckedUpdateManyWithoutCompanyInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2755,6 +2810,7 @@ export type InvoiceCreateManyClientInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: string | null
@@ -2795,6 +2851,7 @@ export type InvoiceUpdateWithoutClientInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2841,6 +2898,7 @@ export type InvoiceUncheckedUpdateWithoutClientInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2886,6 +2944,7 @@ export type InvoiceUncheckedUpdateManyWithoutClientInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceLevelTaxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2928,6 +2987,7 @@ export type InvoiceCreateManyInvoiceLevelTaxProfileInput = {
   grandTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: $Enums.TaxCalculationMode
   taxApplicationLevel?: $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2967,6 +3027,7 @@ export type InvoiceUpdateWithoutInvoiceLevelTaxProfileInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3014,6 +3075,7 @@ export type InvoiceUncheckedUpdateWithoutInvoiceLevelTaxProfileInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3059,6 +3121,7 @@ export type InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileInput = {
   grandTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountDue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxCalculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
   taxApplicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
   invoiceTaxBreakdown?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3158,6 +3221,7 @@ export type InvoiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   grandTotal?: boolean
   amountPaid?: boolean
   amountDue?: boolean
+  creditAmount?: boolean
   taxCalculationMode?: boolean
   taxApplicationLevel?: boolean
   invoiceLevelTaxProfileId?: boolean
@@ -3208,6 +3272,7 @@ export type InvoiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   grandTotal?: boolean
   amountPaid?: boolean
   amountDue?: boolean
+  creditAmount?: boolean
   taxCalculationMode?: boolean
   taxApplicationLevel?: boolean
   invoiceLevelTaxProfileId?: boolean
@@ -3253,6 +3318,7 @@ export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   grandTotal?: boolean
   amountPaid?: boolean
   amountDue?: boolean
+  creditAmount?: boolean
   taxCalculationMode?: boolean
   taxApplicationLevel?: boolean
   invoiceLevelTaxProfileId?: boolean
@@ -3298,6 +3364,7 @@ export type InvoiceSelectScalar = {
   grandTotal?: boolean
   amountPaid?: boolean
   amountDue?: boolean
+  creditAmount?: boolean
   taxCalculationMode?: boolean
   taxApplicationLevel?: boolean
   invoiceLevelTaxProfileId?: boolean
@@ -3320,7 +3387,7 @@ export type InvoiceSelectScalar = {
   updatedAt?: boolean
 }
 
-export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "clientId" | "invoiceNumber" | "invoiceDate" | "dueDate" | "status" | "currency" | "notes" | "terms" | "discountType" | "discountValue" | "discountTotal" | "subTotal" | "taxableAmount" | "taxTotal" | "grandTotal" | "amountPaid" | "amountDue" | "taxCalculationMode" | "taxApplicationLevel" | "invoiceLevelTaxProfileId" | "invoiceTaxBreakdown" | "templateStyle" | "documentTitle" | "brandColor" | "showLogo" | "showSignature" | "showQrCode" | "showBankDetails" | "finalizedAt" | "sentAt" | "paidAt" | "cancelledAt" | "pdfFileName" | "pdfFilePath" | "pdfGeneratedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "clientId" | "invoiceNumber" | "invoiceDate" | "dueDate" | "status" | "currency" | "notes" | "terms" | "discountType" | "discountValue" | "discountTotal" | "subTotal" | "taxableAmount" | "taxTotal" | "grandTotal" | "amountPaid" | "amountDue" | "creditAmount" | "taxCalculationMode" | "taxApplicationLevel" | "invoiceLevelTaxProfileId" | "invoiceTaxBreakdown" | "templateStyle" | "documentTitle" | "brandColor" | "showLogo" | "showSignature" | "showQrCode" | "showBankDetails" | "finalizedAt" | "sentAt" | "paidAt" | "cancelledAt" | "pdfFileName" | "pdfFilePath" | "pdfGeneratedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
 export type InvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   client?: boolean | Prisma.Invoice$clientArgs<ExtArgs>
@@ -3373,6 +3440,7 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     grandTotal: runtime.Decimal
     amountPaid: runtime.Decimal
     amountDue: runtime.Decimal
+    creditAmount: runtime.Decimal
     taxCalculationMode: $Enums.TaxCalculationMode
     taxApplicationLevel: $Enums.TaxApplicationLevel
     invoiceLevelTaxProfileId: string | null
@@ -3842,6 +3910,7 @@ export interface InvoiceFieldRefs {
   readonly grandTotal: Prisma.FieldRef<"Invoice", 'Decimal'>
   readonly amountPaid: Prisma.FieldRef<"Invoice", 'Decimal'>
   readonly amountDue: Prisma.FieldRef<"Invoice", 'Decimal'>
+  readonly creditAmount: Prisma.FieldRef<"Invoice", 'Decimal'>
   readonly taxCalculationMode: Prisma.FieldRef<"Invoice", 'TaxCalculationMode'>
   readonly taxApplicationLevel: Prisma.FieldRef<"Invoice", 'TaxApplicationLevel'>
   readonly invoiceLevelTaxProfileId: Prisma.FieldRef<"Invoice", 'String'>

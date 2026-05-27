@@ -38,9 +38,24 @@ export class ClientsController {
     return this.clientsService.createClient(request.user.id, body as any);
   }
 
+  @Post(':id/activate')
+  activateClient(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
+    return this.clientsService.setClientStatus(request.user.id, id, 'ACTIVE');
+  }
+
+  @Post(':id/deactivate')
+  deactivateClient(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
+    return this.clientsService.setClientStatus(request.user.id, id, 'INACTIVE');
+  }
+
   @Post(':id/restore')
   restoreClient(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
-    return this.clientsService.restoreClient(request.user.id, id);
+    return this.clientsService.setClientStatus(request.user.id, id, 'ACTIVE');
+  }
+
+  @Get(':id/ledger')
+  getClientLedger(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
+    return this.clientsService.getClientLedger(request.user.id, id);
   }
 
   @Get(':id')

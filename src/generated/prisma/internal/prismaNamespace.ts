@@ -388,6 +388,7 @@ export const ModelName = {
   Company: 'Company',
   CompanyMember: 'CompanyMember',
   Client: 'Client',
+  ClientContact: 'ClientContact',
   ProductItem: 'ProductItem',
   TaxProfile: 'TaxProfile',
   TaxRateComponent: 'TaxRateComponent',
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "company" | "companyMember" | "client" | "productItem" | "taxProfile" | "taxRateComponent" | "invoiceTemplateSetting" | "invoice" | "invoicePayment" | "invoiceLineItem" | "billEntry" | "billMatchSuggestion" | "billDiscrepancyFlag" | "notificationRead"
+    modelProps: "user" | "company" | "companyMember" | "client" | "clientContact" | "productItem" | "taxProfile" | "taxRateComponent" | "invoiceTemplateSetting" | "invoice" | "invoicePayment" | "invoiceLineItem" | "billEntry" | "billMatchSuggestion" | "billDiscrepancyFlag" | "notificationRead"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -711,6 +712,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ClientCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ClientCountAggregateOutputType> | number
+        }
+      }
+    }
+    ClientContact: {
+      payload: Prisma.$ClientContactPayload<ExtArgs>
+      fields: Prisma.ClientContactFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClientContactFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClientContactFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        findFirst: {
+          args: Prisma.ClientContactFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClientContactFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        findMany: {
+          args: Prisma.ClientContactFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>[]
+        }
+        create: {
+          args: Prisma.ClientContactCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        createMany: {
+          args: Prisma.ClientContactCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClientContactCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>[]
+        }
+        delete: {
+          args: Prisma.ClientContactDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        update: {
+          args: Prisma.ClientContactUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClientContactDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClientContactUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClientContactUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClientContactUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientContactPayload>
+        }
+        aggregate: {
+          args: Prisma.ClientContactAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClientContact>
+        }
+        groupBy: {
+          args: Prisma.ClientContactGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientContactGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClientContactCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientContactCountAggregateOutputType> | number
         }
       }
     }
@@ -1578,6 +1653,9 @@ export const UserScalarFieldEnum = {
   emailNotifications: 'emailNotifications',
   securityNotifications: 'securityNotifications',
   passwordHash: 'passwordHash',
+  googleId: 'googleId',
+  authProvider: 'authProvider',
+  emailVerified: 'emailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1665,6 +1743,9 @@ export const ClientScalarFieldEnum = {
   shippingCountry: 'shippingCountry',
   defaultCurrency: 'defaultCurrency',
   paymentTerms: 'paymentTerms',
+  openingBalance: 'openingBalance',
+  creditLimit: 'creditLimit',
+  taxProfileId: 'taxProfileId',
   notes: 'notes',
   status: 'status',
   archivedAt: 'archivedAt',
@@ -1673,6 +1754,21 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const ClientContactScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  role: 'role',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClientContactScalarFieldEnum = (typeof ClientContactScalarFieldEnum)[keyof typeof ClientContactScalarFieldEnum]
 
 
 export const ProductItemScalarFieldEnum = {
@@ -1768,6 +1864,7 @@ export const InvoiceScalarFieldEnum = {
   grandTotal: 'grandTotal',
   amountPaid: 'amountPaid',
   amountDue: 'amountDue',
+  creditAmount: 'creditAmount',
   taxCalculationMode: 'taxCalculationMode',
   taxApplicationLevel: 'taxApplicationLevel',
   invoiceLevelTaxProfileId: 'invoiceLevelTaxProfileId',
@@ -1801,6 +1898,9 @@ export const InvoicePaymentScalarFieldEnum = {
   paymentMode: 'paymentMode',
   referenceNumber: 'referenceNumber',
   amountReceived: 'amountReceived',
+  paymentProofDataUrl: 'paymentProofDataUrl',
+  paymentProofFileName: 'paymentProofFileName',
+  paymentProofMimeType: 'paymentProofMimeType',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1970,6 +2070,20 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'AuthProvider'
+ */
+export type EnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'AuthProvider[]'
+ */
+export type ListEnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider[]'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2026,6 +2140,20 @@ export type ListEnumCompanyRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
  * Reference to a field of type 'ClientStatus'
  */
 export type EnumClientStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClientStatus'>
@@ -2050,20 +2178,6 @@ export type EnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'ItemType[]'
  */
 export type ListEnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType[]'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -2390,6 +2504,7 @@ export type GlobalOmitConfig = {
   company?: Prisma.CompanyOmit
   companyMember?: Prisma.CompanyMemberOmit
   client?: Prisma.ClientOmit
+  clientContact?: Prisma.ClientContactOmit
   productItem?: Prisma.ProductItemOmit
   taxProfile?: Prisma.TaxProfileOmit
   taxRateComponent?: Prisma.TaxRateComponentOmit

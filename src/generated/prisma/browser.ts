@@ -38,6 +38,11 @@ export type CompanyMember = Prisma.CompanyMemberModel
  */
 export type Client = Prisma.ClientModel
 /**
+ * Model ClientContact
+ * 
+ */
+export type ClientContact = Prisma.ClientContactModel
+/**
  * Model ProductItem
  * 
  */

@@ -55,6 +55,7 @@ export const ModelName = {
   Company: 'Company',
   CompanyMember: 'CompanyMember',
   Client: 'Client',
+  ClientContact: 'ClientContact',
   ProductItem: 'ProductItem',
   TaxProfile: 'TaxProfile',
   TaxRateComponent: 'TaxRateComponent',
@@ -95,6 +96,9 @@ export const UserScalarFieldEnum = {
   emailNotifications: 'emailNotifications',
   securityNotifications: 'securityNotifications',
   passwordHash: 'passwordHash',
+  googleId: 'googleId',
+  authProvider: 'authProvider',
+  emailVerified: 'emailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -182,6 +186,9 @@ export const ClientScalarFieldEnum = {
   shippingCountry: 'shippingCountry',
   defaultCurrency: 'defaultCurrency',
   paymentTerms: 'paymentTerms',
+  openingBalance: 'openingBalance',
+  creditLimit: 'creditLimit',
+  taxProfileId: 'taxProfileId',
   notes: 'notes',
   status: 'status',
   archivedAt: 'archivedAt',
@@ -190,6 +197,21 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const ClientContactScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  role: 'role',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClientContactScalarFieldEnum = (typeof ClientContactScalarFieldEnum)[keyof typeof ClientContactScalarFieldEnum]
 
 
 export const ProductItemScalarFieldEnum = {
@@ -285,6 +307,7 @@ export const InvoiceScalarFieldEnum = {
   grandTotal: 'grandTotal',
   amountPaid: 'amountPaid',
   amountDue: 'amountDue',
+  creditAmount: 'creditAmount',
   taxCalculationMode: 'taxCalculationMode',
   taxApplicationLevel: 'taxApplicationLevel',
   invoiceLevelTaxProfileId: 'invoiceLevelTaxProfileId',
@@ -318,6 +341,9 @@ export const InvoicePaymentScalarFieldEnum = {
   paymentMode: 'paymentMode',
   referenceNumber: 'referenceNumber',
   amountReceived: 'amountReceived',
+  paymentProofDataUrl: 'paymentProofDataUrl',
+  paymentProofFileName: 'paymentProofFileName',
+  paymentProofMimeType: 'paymentProofMimeType',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

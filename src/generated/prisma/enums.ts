@@ -18,8 +18,17 @@ export const CompanyRole = {
 export type CompanyRole = (typeof CompanyRole)[keyof typeof CompanyRole]
 
 
+export const AuthProvider = {
+  EMAIL: 'EMAIL',
+  GOOGLE: 'GOOGLE'
+} as const
+
+export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
+
+
 export const ClientStatus = {
   ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
   ARCHIVED: 'ARCHIVED'
 } as const
 
@@ -95,6 +104,7 @@ export const InvoiceStatus = {
   SENT: 'SENT',
   PAID: 'PAID',
   PARTIALLY_PAID: 'PARTIALLY_PAID',
+  ADVANCE_CREDIT: 'ADVANCE_CREDIT',
   OVERDUE: 'OVERDUE',
   CANCELLED: 'CANCELLED'
 } as const

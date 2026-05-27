@@ -35,6 +35,9 @@ export type UserMinAggregateOutputType = {
   emailNotifications: boolean | null
   securityNotifications: boolean | null
   passwordHash: string | null
+  googleId: string | null
+  authProvider: $Enums.AuthProvider | null
+  emailVerified: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +53,9 @@ export type UserMaxAggregateOutputType = {
   emailNotifications: boolean | null
   securityNotifications: boolean | null
   passwordHash: string | null
+  googleId: string | null
+  authProvider: $Enums.AuthProvider | null
+  emailVerified: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -65,6 +71,9 @@ export type UserCountAggregateOutputType = {
   emailNotifications: number
   securityNotifications: number
   passwordHash: number
+  googleId: number
+  authProvider: number
+  emailVerified: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -82,6 +91,9 @@ export type UserMinAggregateInputType = {
   emailNotifications?: true
   securityNotifications?: true
   passwordHash?: true
+  googleId?: true
+  authProvider?: true
+  emailVerified?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -97,6 +109,9 @@ export type UserMaxAggregateInputType = {
   emailNotifications?: true
   securityNotifications?: true
   passwordHash?: true
+  googleId?: true
+  authProvider?: true
+  emailVerified?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +127,9 @@ export type UserCountAggregateInputType = {
   emailNotifications?: true
   securityNotifications?: true
   passwordHash?: true
+  googleId?: true
+  authProvider?: true
+  emailVerified?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -200,6 +218,9 @@ export type UserGroupByOutputType = {
   emailNotifications: boolean
   securityNotifications: boolean
   passwordHash: string
+  googleId: string | null
+  authProvider: $Enums.AuthProvider
+  emailVerified: boolean
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -236,6 +257,9 @@ export type UserWhereInput = {
   emailNotifications?: Prisma.BoolFilter<"User"> | boolean
   securityNotifications?: Prisma.BoolFilter<"User"> | boolean
   passwordHash?: Prisma.StringFilter<"User"> | string
+  googleId?: Prisma.StringNullableFilter<"User"> | string | null
+  authProvider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   memberships?: Prisma.CompanyMemberListRelationFilter
@@ -253,6 +277,9 @@ export type UserOrderByWithRelationInput = {
   emailNotifications?: Prisma.SortOrder
   securityNotifications?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  authProvider?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   memberships?: Prisma.CompanyMemberOrderByRelationAggregateInput
@@ -262,6 +289,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  googleId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -273,11 +301,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   emailNotifications?: Prisma.BoolFilter<"User"> | boolean
   securityNotifications?: Prisma.BoolFilter<"User"> | boolean
   passwordHash?: Prisma.StringFilter<"User"> | string
+  authProvider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   memberships?: Prisma.CompanyMemberListRelationFilter
   notificationReads?: Prisma.NotificationReadListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "googleId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -290,6 +320,9 @@ export type UserOrderByWithAggregationInput = {
   emailNotifications?: Prisma.SortOrder
   securityNotifications?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  authProvider?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -311,6 +344,9 @@ export type UserScalarWhereWithAggregatesInput = {
   emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   securityNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
+  googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  authProvider?: Prisma.EnumAuthProviderWithAggregatesFilter<"User"> | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -326,6 +362,9 @@ export type UserCreateInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CompanyMemberCreateNestedManyWithoutUserInput
@@ -343,6 +382,9 @@ export type UserUncheckedCreateInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CompanyMemberUncheckedCreateNestedManyWithoutUserInput
@@ -360,6 +402,9 @@ export type UserUpdateInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CompanyMemberUpdateManyWithoutUserNestedInput
@@ -377,6 +422,9 @@ export type UserUncheckedUpdateInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CompanyMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -394,6 +442,9 @@ export type UserCreateManyInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -409,6 +460,9 @@ export type UserUpdateManyMutationInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -424,6 +478,9 @@ export type UserUncheckedUpdateManyInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -439,6 +496,9 @@ export type UserCountOrderByAggregateInput = {
   emailNotifications?: Prisma.SortOrder
   securityNotifications?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  authProvider?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -454,6 +514,9 @@ export type UserMaxOrderByAggregateInput = {
   emailNotifications?: Prisma.SortOrder
   securityNotifications?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  authProvider?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -469,6 +532,9 @@ export type UserMinOrderByAggregateInput = {
   emailNotifications?: Prisma.SortOrder
   securityNotifications?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  authProvider?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -488,6 +554,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type EnumAuthProviderFieldUpdateOperationsInput = {
+  set?: $Enums.AuthProvider
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -533,6 +603,9 @@ export type UserCreateWithoutMembershipsInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notificationReads?: Prisma.NotificationReadCreateNestedManyWithoutUserInput
@@ -549,6 +622,9 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notificationReads?: Prisma.NotificationReadUncheckedCreateNestedManyWithoutUserInput
@@ -581,6 +657,9 @@ export type UserUpdateWithoutMembershipsInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationReads?: Prisma.NotificationReadUpdateManyWithoutUserNestedInput
@@ -597,6 +676,9 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationReads?: Prisma.NotificationReadUncheckedUpdateManyWithoutUserNestedInput
@@ -613,6 +695,9 @@ export type UserCreateWithoutNotificationReadsInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CompanyMemberCreateNestedManyWithoutUserInput
@@ -629,6 +714,9 @@ export type UserUncheckedCreateWithoutNotificationReadsInput = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash: string
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CompanyMemberUncheckedCreateNestedManyWithoutUserInput
@@ -661,6 +749,9 @@ export type UserUpdateWithoutNotificationReadsInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CompanyMemberUpdateManyWithoutUserNestedInput
@@ -677,6 +768,9 @@ export type UserUncheckedUpdateWithoutNotificationReadsInput = {
   emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   securityNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CompanyMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -733,6 +827,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash?: boolean
+  googleId?: boolean
+  authProvider?: boolean
+  emailVerified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
@@ -751,6 +848,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash?: boolean
+  googleId?: boolean
+  authProvider?: boolean
+  emailVerified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -766,6 +866,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash?: boolean
+  googleId?: boolean
+  authProvider?: boolean
+  emailVerified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -781,11 +884,14 @@ export type UserSelectScalar = {
   emailNotifications?: boolean
   securityNotifications?: boolean
   passwordHash?: boolean
+  googleId?: boolean
+  authProvider?: boolean
+  emailVerified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "avatarDataUrl" | "timezone" | "language" | "emailNotifications" | "securityNotifications" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "avatarDataUrl" | "timezone" | "language" | "emailNotifications" | "securityNotifications" | "passwordHash" | "googleId" | "authProvider" | "emailVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
   notificationReads?: boolean | Prisma.User$notificationReadsArgs<ExtArgs>
@@ -811,6 +917,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     emailNotifications: boolean
     securityNotifications: boolean
     passwordHash: string
+    googleId: string | null
+    authProvider: $Enums.AuthProvider
+    emailVerified: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1248,6 +1357,9 @@ export interface UserFieldRefs {
   readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
   readonly securityNotifications: Prisma.FieldRef<"User", 'Boolean'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly googleId: Prisma.FieldRef<"User", 'String'>
+  readonly authProvider: Prisma.FieldRef<"User", 'AuthProvider'>
+  readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

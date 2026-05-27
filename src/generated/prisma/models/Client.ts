@@ -20,8 +20,20 @@ export type ClientModel = runtime.Types.Result.DefaultSelection<Prisma.$ClientPa
 
 export type AggregateClient = {
   _count: ClientCountAggregateOutputType | null
+  _avg: ClientAvgAggregateOutputType | null
+  _sum: ClientSumAggregateOutputType | null
   _min: ClientMinAggregateOutputType | null
   _max: ClientMaxAggregateOutputType | null
+}
+
+export type ClientAvgAggregateOutputType = {
+  openingBalance: runtime.Decimal | null
+  creditLimit: runtime.Decimal | null
+}
+
+export type ClientSumAggregateOutputType = {
+  openingBalance: runtime.Decimal | null
+  creditLimit: runtime.Decimal | null
 }
 
 export type ClientMinAggregateOutputType = {
@@ -48,6 +60,9 @@ export type ClientMinAggregateOutputType = {
   shippingCountry: string | null
   defaultCurrency: string | null
   paymentTerms: string | null
+  openingBalance: runtime.Decimal | null
+  creditLimit: runtime.Decimal | null
+  taxProfileId: string | null
   notes: string | null
   status: $Enums.ClientStatus | null
   archivedAt: Date | null
@@ -79,6 +94,9 @@ export type ClientMaxAggregateOutputType = {
   shippingCountry: string | null
   defaultCurrency: string | null
   paymentTerms: string | null
+  openingBalance: runtime.Decimal | null
+  creditLimit: runtime.Decimal | null
+  taxProfileId: string | null
   notes: string | null
   status: $Enums.ClientStatus | null
   archivedAt: Date | null
@@ -110,6 +128,9 @@ export type ClientCountAggregateOutputType = {
   shippingCountry: number
   defaultCurrency: number
   paymentTerms: number
+  openingBalance: number
+  creditLimit: number
+  taxProfileId: number
   notes: number
   status: number
   archivedAt: number
@@ -118,6 +139,16 @@ export type ClientCountAggregateOutputType = {
   _all: number
 }
 
+
+export type ClientAvgAggregateInputType = {
+  openingBalance?: true
+  creditLimit?: true
+}
+
+export type ClientSumAggregateInputType = {
+  openingBalance?: true
+  creditLimit?: true
+}
 
 export type ClientMinAggregateInputType = {
   id?: true
@@ -143,6 +174,9 @@ export type ClientMinAggregateInputType = {
   shippingCountry?: true
   defaultCurrency?: true
   paymentTerms?: true
+  openingBalance?: true
+  creditLimit?: true
+  taxProfileId?: true
   notes?: true
   status?: true
   archivedAt?: true
@@ -174,6 +208,9 @@ export type ClientMaxAggregateInputType = {
   shippingCountry?: true
   defaultCurrency?: true
   paymentTerms?: true
+  openingBalance?: true
+  creditLimit?: true
+  taxProfileId?: true
   notes?: true
   status?: true
   archivedAt?: true
@@ -205,6 +242,9 @@ export type ClientCountAggregateInputType = {
   shippingCountry?: true
   defaultCurrency?: true
   paymentTerms?: true
+  openingBalance?: true
+  creditLimit?: true
+  taxProfileId?: true
   notes?: true
   status?: true
   archivedAt?: true
@@ -251,6 +291,18 @@ export type ClientAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ClientAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ClientSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ClientMinAggregateInputType
@@ -281,6 +333,8 @@ export type ClientGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: ClientCountAggregateInputType | true
+  _avg?: ClientAvgAggregateInputType
+  _sum?: ClientSumAggregateInputType
   _min?: ClientMinAggregateInputType
   _max?: ClientMaxAggregateInputType
 }
@@ -309,12 +363,17 @@ export type ClientGroupByOutputType = {
   shippingCountry: string | null
   defaultCurrency: string
   paymentTerms: string
+  openingBalance: runtime.Decimal
+  creditLimit: runtime.Decimal
+  taxProfileId: string | null
   notes: string | null
   status: $Enums.ClientStatus
   archivedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: ClientCountAggregateOutputType | null
+  _avg: ClientAvgAggregateOutputType | null
+  _sum: ClientSumAggregateOutputType | null
   _min: ClientMinAggregateOutputType | null
   _max: ClientMaxAggregateOutputType | null
 }
@@ -361,13 +420,18 @@ export type ClientWhereInput = {
   shippingCountry?: Prisma.StringNullableFilter<"Client"> | string | null
   defaultCurrency?: Prisma.StringFilter<"Client"> | string
   paymentTerms?: Prisma.StringFilter<"Client"> | string
+  openingBalance?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   status?: Prisma.EnumClientStatusFilter<"Client"> | $Enums.ClientStatus
   archivedAt?: Prisma.DateTimeNullableFilter<"Client"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  taxProfile?: Prisma.XOR<Prisma.TaxProfileNullableScalarRelationFilter, Prisma.TaxProfileWhereInput> | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   invoices?: Prisma.InvoiceListRelationFilter
+  contacts?: Prisma.ClientContactListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
@@ -394,13 +458,18 @@ export type ClientOrderByWithRelationInput = {
   shippingCountry?: Prisma.SortOrderInput | Prisma.SortOrder
   defaultCurrency?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+  taxProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  taxProfile?: Prisma.TaxProfileOrderByWithRelationInput
   company?: Prisma.CompanyOrderByWithRelationInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
+  contacts?: Prisma.ClientContactOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -430,13 +499,18 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   shippingCountry?: Prisma.StringNullableFilter<"Client"> | string | null
   defaultCurrency?: Prisma.StringFilter<"Client"> | string
   paymentTerms?: Prisma.StringFilter<"Client"> | string
+  openingBalance?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   status?: Prisma.EnumClientStatusFilter<"Client"> | $Enums.ClientStatus
   archivedAt?: Prisma.DateTimeNullableFilter<"Client"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  taxProfile?: Prisma.XOR<Prisma.TaxProfileNullableScalarRelationFilter, Prisma.TaxProfileWhereInput> | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   invoices?: Prisma.InvoiceListRelationFilter
+  contacts?: Prisma.ClientContactListRelationFilter
 }, "id">
 
 export type ClientOrderByWithAggregationInput = {
@@ -463,14 +537,19 @@ export type ClientOrderByWithAggregationInput = {
   shippingCountry?: Prisma.SortOrderInput | Prisma.SortOrder
   defaultCurrency?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+  taxProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClientCountOrderByAggregateInput
+  _avg?: Prisma.ClientAvgOrderByAggregateInput
   _max?: Prisma.ClientMaxOrderByAggregateInput
   _min?: Prisma.ClientMinOrderByAggregateInput
+  _sum?: Prisma.ClientSumOrderByAggregateInput
 }
 
 export type ClientScalarWhereWithAggregatesInput = {
@@ -500,6 +579,9 @@ export type ClientScalarWhereWithAggregatesInput = {
   shippingCountry?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   defaultCurrency?: Prisma.StringWithAggregatesFilter<"Client"> | string
   paymentTerms?: Prisma.StringWithAggregatesFilter<"Client"> | string
+  openingBalance?: Prisma.DecimalWithAggregatesFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalWithAggregatesFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   status?: Prisma.EnumClientStatusWithAggregatesFilter<"Client"> | $Enums.ClientStatus
   archivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Client"> | Date | string | null
@@ -530,13 +612,17 @@ export type ClientCreateInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  taxProfile?: Prisma.TaxProfileCreateNestedOneWithoutClientsInput
   company: Prisma.CompanyCreateNestedOneWithoutClientsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
@@ -563,12 +649,16 @@ export type ClientUncheckedCreateInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
@@ -594,13 +684,17 @@ export type ClientUpdateInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  taxProfile?: Prisma.TaxProfileUpdateOneWithoutClientsNestedInput
   company?: Prisma.CompanyUpdateOneRequiredWithoutClientsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
@@ -627,12 +721,16 @@ export type ClientUncheckedUpdateInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
@@ -659,6 +757,9 @@ export type ClientCreateManyInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
@@ -689,6 +790,8 @@ export type ClientUpdateManyMutationInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -720,6 +823,9 @@ export type ClientUncheckedUpdateManyInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -761,11 +867,19 @@ export type ClientCountOrderByAggregateInput = {
   shippingCountry?: Prisma.SortOrder
   defaultCurrency?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+  taxProfileId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   status?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ClientAvgOrderByAggregateInput = {
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
 }
 
 export type ClientMaxOrderByAggregateInput = {
@@ -792,6 +906,9 @@ export type ClientMaxOrderByAggregateInput = {
   shippingCountry?: Prisma.SortOrder
   defaultCurrency?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+  taxProfileId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   status?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
@@ -823,11 +940,24 @@ export type ClientMinOrderByAggregateInput = {
   shippingCountry?: Prisma.SortOrder
   defaultCurrency?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+  taxProfileId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   status?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ClientSumOrderByAggregateInput = {
+  openingBalance?: Prisma.SortOrder
+  creditLimit?: Prisma.SortOrder
+}
+
+export type ClientScalarRelationFilter = {
+  is?: Prisma.ClientWhereInput
+  isNot?: Prisma.ClientWhereInput
 }
 
 export type ClientNullableScalarRelationFilter = {
@@ -877,12 +1007,76 @@ export type ClientUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
 }
 
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type EnumClientStatusFieldUpdateOperationsInput = {
   set?: $Enums.ClientStatus
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type ClientCreateNestedOneWithoutContactsInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutContactsInput, Prisma.ClientUncheckedCreateWithoutContactsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutContactsInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneRequiredWithoutContactsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutContactsInput, Prisma.ClientUncheckedCreateWithoutContactsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutContactsInput
+  upsert?: Prisma.ClientUpsertWithoutContactsInput
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutContactsInput, Prisma.ClientUpdateWithoutContactsInput>, Prisma.ClientUncheckedUpdateWithoutContactsInput>
+}
+
+export type ClientCreateNestedManyWithoutTaxProfileInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput> | Prisma.ClientCreateWithoutTaxProfileInput[] | Prisma.ClientUncheckedCreateWithoutTaxProfileInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTaxProfileInput | Prisma.ClientCreateOrConnectWithoutTaxProfileInput[]
+  createMany?: Prisma.ClientCreateManyTaxProfileInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUncheckedCreateNestedManyWithoutTaxProfileInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput> | Prisma.ClientCreateWithoutTaxProfileInput[] | Prisma.ClientUncheckedCreateWithoutTaxProfileInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTaxProfileInput | Prisma.ClientCreateOrConnectWithoutTaxProfileInput[]
+  createMany?: Prisma.ClientCreateManyTaxProfileInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUpdateManyWithoutTaxProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput> | Prisma.ClientCreateWithoutTaxProfileInput[] | Prisma.ClientUncheckedCreateWithoutTaxProfileInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTaxProfileInput | Prisma.ClientCreateOrConnectWithoutTaxProfileInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutTaxProfileInput | Prisma.ClientUpsertWithWhereUniqueWithoutTaxProfileInput[]
+  createMany?: Prisma.ClientCreateManyTaxProfileInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutTaxProfileInput | Prisma.ClientUpdateWithWhereUniqueWithoutTaxProfileInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutTaxProfileInput | Prisma.ClientUpdateManyWithWhereWithoutTaxProfileInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientUncheckedUpdateManyWithoutTaxProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput> | Prisma.ClientCreateWithoutTaxProfileInput[] | Prisma.ClientUncheckedCreateWithoutTaxProfileInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTaxProfileInput | Prisma.ClientCreateOrConnectWithoutTaxProfileInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutTaxProfileInput | Prisma.ClientUpsertWithWhereUniqueWithoutTaxProfileInput[]
+  createMany?: Prisma.ClientCreateManyTaxProfileInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutTaxProfileInput | Prisma.ClientUpdateWithWhereUniqueWithoutTaxProfileInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutTaxProfileInput | Prisma.ClientUpdateManyWithWhereWithoutTaxProfileInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
 }
 
 export type ClientCreateNestedOneWithoutInvoicesInput = {
@@ -924,12 +1118,16 @@ export type ClientCreateWithoutCompanyInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  taxProfile?: Prisma.TaxProfileCreateNestedOneWithoutClientsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutCompanyInput = {
@@ -955,12 +1153,16 @@ export type ClientUncheckedCreateWithoutCompanyInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutCompanyInput = {
@@ -1016,11 +1218,266 @@ export type ClientScalarWhereInput = {
   shippingCountry?: Prisma.StringNullableFilter<"Client"> | string | null
   defaultCurrency?: Prisma.StringFilter<"Client"> | string
   paymentTerms?: Prisma.StringFilter<"Client"> | string
+  openingBalance?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFilter<"Client"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   status?: Prisma.EnumClientStatusFilter<"Client"> | $Enums.ClientStatus
   archivedAt?: Prisma.DateTimeNullableFilter<"Client"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+}
+
+export type ClientCreateWithoutContactsInput = {
+  id?: string
+  companyName: string
+  contactPerson?: string | null
+  email?: string | null
+  phone?: string | null
+  industry?: string | null
+  taxId?: string | null
+  billingAddressLine1?: string | null
+  billingAddressLine2?: string | null
+  billingCity?: string | null
+  billingState?: string | null
+  billingPostalCode?: string | null
+  billingCountry?: string | null
+  shippingSameAsBilling?: boolean
+  shippingAddressLine1?: string | null
+  shippingAddressLine2?: string | null
+  shippingCity?: string | null
+  shippingState?: string | null
+  shippingPostalCode?: string | null
+  shippingCountry?: string | null
+  defaultCurrency?: string
+  paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  status?: $Enums.ClientStatus
+  archivedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  taxProfile?: Prisma.TaxProfileCreateNestedOneWithoutClientsInput
+  company: Prisma.CompanyCreateNestedOneWithoutClientsInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutContactsInput = {
+  id?: string
+  companyId: string
+  companyName: string
+  contactPerson?: string | null
+  email?: string | null
+  phone?: string | null
+  industry?: string | null
+  taxId?: string | null
+  billingAddressLine1?: string | null
+  billingAddressLine2?: string | null
+  billingCity?: string | null
+  billingState?: string | null
+  billingPostalCode?: string | null
+  billingCountry?: string | null
+  shippingSameAsBilling?: boolean
+  shippingAddressLine1?: string | null
+  shippingAddressLine2?: string | null
+  shippingCity?: string | null
+  shippingState?: string | null
+  shippingPostalCode?: string | null
+  shippingCountry?: string | null
+  defaultCurrency?: string
+  paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
+  notes?: string | null
+  status?: $Enums.ClientStatus
+  archivedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutContactsInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutContactsInput, Prisma.ClientUncheckedCreateWithoutContactsInput>
+}
+
+export type ClientUpsertWithoutContactsInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutContactsInput, Prisma.ClientUncheckedUpdateWithoutContactsInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutContactsInput, Prisma.ClientUncheckedCreateWithoutContactsInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutContactsInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutContactsInput, Prisma.ClientUncheckedUpdateWithoutContactsInput>
+}
+
+export type ClientUpdateWithoutContactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingSameAsBilling?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  shippingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  taxProfile?: Prisma.TaxProfileUpdateOneWithoutClientsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutClientsNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutContactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingSameAsBilling?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  shippingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientCreateWithoutTaxProfileInput = {
+  id?: string
+  companyName: string
+  contactPerson?: string | null
+  email?: string | null
+  phone?: string | null
+  industry?: string | null
+  taxId?: string | null
+  billingAddressLine1?: string | null
+  billingAddressLine2?: string | null
+  billingCity?: string | null
+  billingState?: string | null
+  billingPostalCode?: string | null
+  billingCountry?: string | null
+  shippingSameAsBilling?: boolean
+  shippingAddressLine1?: string | null
+  shippingAddressLine2?: string | null
+  shippingCity?: string | null
+  shippingState?: string | null
+  shippingPostalCode?: string | null
+  shippingCountry?: string | null
+  defaultCurrency?: string
+  paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  status?: $Enums.ClientStatus
+  archivedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutClientsInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutTaxProfileInput = {
+  id?: string
+  companyId: string
+  companyName: string
+  contactPerson?: string | null
+  email?: string | null
+  phone?: string | null
+  industry?: string | null
+  taxId?: string | null
+  billingAddressLine1?: string | null
+  billingAddressLine2?: string | null
+  billingCity?: string | null
+  billingState?: string | null
+  billingPostalCode?: string | null
+  billingCountry?: string | null
+  shippingSameAsBilling?: boolean
+  shippingAddressLine1?: string | null
+  shippingAddressLine2?: string | null
+  shippingCity?: string | null
+  shippingState?: string | null
+  shippingPostalCode?: string | null
+  shippingCountry?: string | null
+  defaultCurrency?: string
+  paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  status?: $Enums.ClientStatus
+  archivedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutClientInput
+  contacts?: Prisma.ClientContactUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutTaxProfileInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput>
+}
+
+export type ClientCreateManyTaxProfileInputEnvelope = {
+  data: Prisma.ClientCreateManyTaxProfileInput | Prisma.ClientCreateManyTaxProfileInput[]
+  skipDuplicates?: boolean
+}
+
+export type ClientUpsertWithWhereUniqueWithoutTaxProfileInput = {
+  where: Prisma.ClientWhereUniqueInput
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutTaxProfileInput, Prisma.ClientUncheckedUpdateWithoutTaxProfileInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutTaxProfileInput, Prisma.ClientUncheckedCreateWithoutTaxProfileInput>
+}
+
+export type ClientUpdateWithWhereUniqueWithoutTaxProfileInput = {
+  where: Prisma.ClientWhereUniqueInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutTaxProfileInput, Prisma.ClientUncheckedUpdateWithoutTaxProfileInput>
+}
+
+export type ClientUpdateManyWithWhereWithoutTaxProfileInput = {
+  where: Prisma.ClientScalarWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateManyMutationInput, Prisma.ClientUncheckedUpdateManyWithoutTaxProfileInput>
 }
 
 export type ClientCreateWithoutInvoicesInput = {
@@ -1046,12 +1503,16 @@ export type ClientCreateWithoutInvoicesInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  taxProfile?: Prisma.TaxProfileCreateNestedOneWithoutClientsInput
   company: Prisma.CompanyCreateNestedOneWithoutClientsInput
+  contacts?: Prisma.ClientContactCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutInvoicesInput = {
@@ -1078,11 +1539,15 @@ export type ClientUncheckedCreateWithoutInvoicesInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  contacts?: Prisma.ClientContactUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutInvoicesInput = {
@@ -1124,12 +1589,16 @@ export type ClientUpdateWithoutInvoicesInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  taxProfile?: Prisma.TaxProfileUpdateOneWithoutClientsNestedInput
   company?: Prisma.CompanyUpdateOneRequiredWithoutClientsNestedInput
+  contacts?: Prisma.ClientContactUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutInvoicesInput = {
@@ -1156,11 +1625,15 @@ export type ClientUncheckedUpdateWithoutInvoicesInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contacts?: Prisma.ClientContactUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyCompanyInput = {
@@ -1186,6 +1659,9 @@ export type ClientCreateManyCompanyInput = {
   shippingCountry?: string | null
   defaultCurrency?: string
   paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: string | null
   notes?: string | null
   status?: $Enums.ClientStatus
   archivedAt?: Date | string | null
@@ -1216,12 +1692,16 @@ export type ClientUpdateWithoutCompanyInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  taxProfile?: Prisma.TaxProfileUpdateOneWithoutClientsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutCompanyInput = {
@@ -1247,12 +1727,16 @@ export type ClientUncheckedUpdateWithoutCompanyInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateManyWithoutCompanyInput = {
@@ -1278,6 +1762,145 @@ export type ClientUncheckedUpdateManyWithoutCompanyInput = {
   shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
   paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  taxProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ClientCreateManyTaxProfileInput = {
+  id?: string
+  companyId: string
+  companyName: string
+  contactPerson?: string | null
+  email?: string | null
+  phone?: string | null
+  industry?: string | null
+  taxId?: string | null
+  billingAddressLine1?: string | null
+  billingAddressLine2?: string | null
+  billingCity?: string | null
+  billingState?: string | null
+  billingPostalCode?: string | null
+  billingCountry?: string | null
+  shippingSameAsBilling?: boolean
+  shippingAddressLine1?: string | null
+  shippingAddressLine2?: string | null
+  shippingCity?: string | null
+  shippingState?: string | null
+  shippingPostalCode?: string | null
+  shippingCountry?: string | null
+  defaultCurrency?: string
+  paymentTerms?: string
+  openingBalance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  status?: $Enums.ClientStatus
+  archivedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClientUpdateWithoutTaxProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingSameAsBilling?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  shippingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutClientsNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutTaxProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingSameAsBilling?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  shippingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutClientNestedInput
+  contacts?: Prisma.ClientContactUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateManyWithoutTaxProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingSameAsBilling?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  shippingAddressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingPostalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentTerms?: Prisma.StringFieldUpdateOperationsInput | string
+  openingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  creditLimit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1292,10 +1915,12 @@ export type ClientUncheckedUpdateManyWithoutCompanyInput = {
 
 export type ClientCountOutputType = {
   invoices: number
+  contacts: number
 }
 
 export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   invoices?: boolean | ClientCountOutputTypeCountInvoicesArgs
+  contacts?: boolean | ClientCountOutputTypeCountContactsArgs
 }
 
 /**
@@ -1313,6 +1938,13 @@ export type ClientCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type ClientCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InvoiceWhereInput
+}
+
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountContactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientContactWhereInput
 }
 
 
@@ -1340,13 +1972,18 @@ export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   shippingCountry?: boolean
   defaultCurrency?: boolean
   paymentTerms?: boolean
+  openingBalance?: boolean
+  creditLimit?: boolean
+  taxProfileId?: boolean
   notes?: boolean
   status?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   invoices?: boolean | Prisma.Client$invoicesArgs<ExtArgs>
+  contacts?: boolean | Prisma.Client$contactsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -1374,11 +2011,15 @@ export type ClientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   shippingCountry?: boolean
   defaultCurrency?: boolean
   paymentTerms?: boolean
+  openingBalance?: boolean
+  creditLimit?: boolean
+  taxProfileId?: boolean
   notes?: boolean
   status?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -1406,11 +2047,15 @@ export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   shippingCountry?: boolean
   defaultCurrency?: boolean
   paymentTerms?: boolean
+  openingBalance?: boolean
+  creditLimit?: boolean
+  taxProfileId?: boolean
   notes?: boolean
   status?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -1438,6 +2083,9 @@ export type ClientSelectScalar = {
   shippingCountry?: boolean
   defaultCurrency?: boolean
   paymentTerms?: boolean
+  openingBalance?: boolean
+  creditLimit?: boolean
+  taxProfileId?: boolean
   notes?: boolean
   status?: boolean
   archivedAt?: boolean
@@ -1445,24 +2093,30 @@ export type ClientSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "companyName" | "contactPerson" | "email" | "phone" | "industry" | "taxId" | "billingAddressLine1" | "billingAddressLine2" | "billingCity" | "billingState" | "billingPostalCode" | "billingCountry" | "shippingSameAsBilling" | "shippingAddressLine1" | "shippingAddressLine2" | "shippingCity" | "shippingState" | "shippingPostalCode" | "shippingCountry" | "defaultCurrency" | "paymentTerms" | "notes" | "status" | "archivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
+export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "companyName" | "contactPerson" | "email" | "phone" | "industry" | "taxId" | "billingAddressLine1" | "billingAddressLine2" | "billingCity" | "billingState" | "billingPostalCode" | "billingCountry" | "shippingSameAsBilling" | "shippingAddressLine1" | "shippingAddressLine2" | "shippingCity" | "shippingState" | "shippingPostalCode" | "shippingCountry" | "defaultCurrency" | "paymentTerms" | "openingBalance" | "creditLimit" | "taxProfileId" | "notes" | "status" | "archivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
 export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   invoices?: boolean | Prisma.Client$invoicesArgs<ExtArgs>
+  contacts?: boolean | Prisma.Client$contactsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClientIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type ClientIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  taxProfile?: boolean | Prisma.Client$taxProfileArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Client"
   objects: {
+    taxProfile: Prisma.$TaxProfilePayload<ExtArgs> | null
     company: Prisma.$CompanyPayload<ExtArgs>
     invoices: Prisma.$InvoicePayload<ExtArgs>[]
+    contacts: Prisma.$ClientContactPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1488,6 +2142,9 @@ export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     shippingCountry: string | null
     defaultCurrency: string
     paymentTerms: string
+    openingBalance: runtime.Decimal
+    creditLimit: runtime.Decimal
+    taxProfileId: string | null
     notes: string | null
     status: $Enums.ClientStatus
     archivedAt: Date | null
@@ -1887,8 +2544,10 @@ readonly fields: ClientFieldRefs;
  */
 export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  taxProfile<T extends Prisma.Client$taxProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$taxProfileArgs<ExtArgs>>): Prisma.Prisma__TaxProfileClient<runtime.Types.Result.GetResult<Prisma.$TaxProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   invoices<T extends Prisma.Client$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contacts<T extends Prisma.Client$contactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1941,6 +2600,9 @@ export interface ClientFieldRefs {
   readonly shippingCountry: Prisma.FieldRef<"Client", 'String'>
   readonly defaultCurrency: Prisma.FieldRef<"Client", 'String'>
   readonly paymentTerms: Prisma.FieldRef<"Client", 'String'>
+  readonly openingBalance: Prisma.FieldRef<"Client", 'Decimal'>
+  readonly creditLimit: Prisma.FieldRef<"Client", 'Decimal'>
+  readonly taxProfileId: Prisma.FieldRef<"Client", 'String'>
   readonly notes: Prisma.FieldRef<"Client", 'String'>
   readonly status: Prisma.FieldRef<"Client", 'ClientStatus'>
   readonly archivedAt: Prisma.FieldRef<"Client", 'DateTime'>
@@ -2347,6 +3009,25 @@ export type ClientDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Client.taxProfile
+ */
+export type Client$taxProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaxProfile
+   */
+  select?: Prisma.TaxProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TaxProfile
+   */
+  omit?: Prisma.TaxProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxProfileInclude<ExtArgs> | null
+  where?: Prisma.TaxProfileWhereInput
+}
+
+/**
  * Client.invoices
  */
 export type Client$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2368,6 +3049,30 @@ export type Client$invoicesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.InvoiceScalarFieldEnum | Prisma.InvoiceScalarFieldEnum[]
+}
+
+/**
+ * Client.contacts
+ */
+export type Client$contactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClientContact
+   */
+  select?: Prisma.ClientContactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClientContact
+   */
+  omit?: Prisma.ClientContactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientContactInclude<ExtArgs> | null
+  where?: Prisma.ClientContactWhereInput
+  orderBy?: Prisma.ClientContactOrderByWithRelationInput | Prisma.ClientContactOrderByWithRelationInput[]
+  cursor?: Prisma.ClientContactWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientContactScalarFieldEnum | Prisma.ClientContactScalarFieldEnum[]
 }
 
 /**

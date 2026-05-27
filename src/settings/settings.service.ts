@@ -383,6 +383,8 @@ export class SettingsService {
       language: user.language || 'en',
       emailNotifications: Boolean(user.emailNotifications),
       securityNotifications: Boolean(user.securityNotifications),
+      authProvider: user.authProvider || 'EMAIL',
+      emailVerified: Boolean(user.emailVerified),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

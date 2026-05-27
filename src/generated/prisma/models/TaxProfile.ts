@@ -315,6 +315,7 @@ export type TaxProfileWhereInput = {
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   components?: Prisma.TaxRateComponentListRelationFilter
   productItems?: Prisma.ProductItemListRelationFilter
+  clients?: Prisma.ClientListRelationFilter
   invoiceTaxProfiles?: Prisma.InvoiceListRelationFilter
   invoiceLineItems?: Prisma.InvoiceLineItemListRelationFilter
 }
@@ -340,6 +341,7 @@ export type TaxProfileOrderByWithRelationInput = {
   company?: Prisma.CompanyOrderByWithRelationInput
   components?: Prisma.TaxRateComponentOrderByRelationAggregateInput
   productItems?: Prisma.ProductItemOrderByRelationAggregateInput
+  clients?: Prisma.ClientOrderByRelationAggregateInput
   invoiceTaxProfiles?: Prisma.InvoiceOrderByRelationAggregateInput
   invoiceLineItems?: Prisma.InvoiceLineItemOrderByRelationAggregateInput
 }
@@ -368,6 +370,7 @@ export type TaxProfileWhereUniqueInput = Prisma.AtLeast<{
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   components?: Prisma.TaxRateComponentListRelationFilter
   productItems?: Prisma.ProductItemListRelationFilter
+  clients?: Prisma.ClientListRelationFilter
   invoiceTaxProfiles?: Prisma.InvoiceListRelationFilter
   invoiceLineItems?: Prisma.InvoiceLineItemListRelationFilter
 }, "id">
@@ -440,6 +443,7 @@ export type TaxProfileCreateInput = {
   company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
   components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
 }
@@ -464,6 +468,7 @@ export type TaxProfileUncheckedCreateInput = {
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
 }
@@ -488,6 +493,7 @@ export type TaxProfileUpdateInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
   components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
 }
@@ -512,6 +518,7 @@ export type TaxProfileUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
 }
@@ -705,6 +712,22 @@ export type TaxProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.TaxProfileScalarWhereInput | Prisma.TaxProfileScalarWhereInput[]
 }
 
+export type TaxProfileCreateNestedOneWithoutClientsInput = {
+  create?: Prisma.XOR<Prisma.TaxProfileCreateWithoutClientsInput, Prisma.TaxProfileUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.TaxProfileCreateOrConnectWithoutClientsInput
+  connect?: Prisma.TaxProfileWhereUniqueInput
+}
+
+export type TaxProfileUpdateOneWithoutClientsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxProfileCreateWithoutClientsInput, Prisma.TaxProfileUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.TaxProfileCreateOrConnectWithoutClientsInput
+  upsert?: Prisma.TaxProfileUpsertWithoutClientsInput
+  disconnect?: Prisma.TaxProfileWhereInput | boolean
+  delete?: Prisma.TaxProfileWhereInput | boolean
+  connect?: Prisma.TaxProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxProfileUpdateToOneWithWhereWithoutClientsInput, Prisma.TaxProfileUpdateWithoutClientsInput>, Prisma.TaxProfileUncheckedUpdateWithoutClientsInput>
+}
+
 export type TaxProfileCreateNestedOneWithoutProductItemsInput = {
   create?: Prisma.XOR<Prisma.TaxProfileCreateWithoutProductItemsInput, Prisma.TaxProfileUncheckedCreateWithoutProductItemsInput>
   connectOrCreate?: Prisma.TaxProfileCreateOrConnectWithoutProductItemsInput
@@ -802,6 +825,7 @@ export type TaxProfileCreateWithoutCompanyInput = {
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
 }
@@ -825,6 +849,7 @@ export type TaxProfileUncheckedCreateWithoutCompanyInput = {
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
 }
@@ -878,6 +903,118 @@ export type TaxProfileScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TaxProfile"> | Date | string
 }
 
+export type TaxProfileCreateWithoutClientsInput = {
+  id?: string
+  name: string
+  type?: $Enums.TaxProfileType
+  country?: string | null
+  region?: string | null
+  taxNumberLabel?: string | null
+  taxNumber?: string | null
+  hsnSacRequired?: boolean
+  defaultRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  calculationMode?: $Enums.TaxCalculationMode
+  applicationLevel?: $Enums.TaxApplicationLevel
+  isDefault?: boolean
+  status?: $Enums.TaxProfileStatus
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
+  components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
+  productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
+  invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
+}
+
+export type TaxProfileUncheckedCreateWithoutClientsInput = {
+  id?: string
+  companyId: string
+  name: string
+  type?: $Enums.TaxProfileType
+  country?: string | null
+  region?: string | null
+  taxNumberLabel?: string | null
+  taxNumber?: string | null
+  hsnSacRequired?: boolean
+  defaultRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  calculationMode?: $Enums.TaxCalculationMode
+  applicationLevel?: $Enums.TaxApplicationLevel
+  isDefault?: boolean
+  status?: $Enums.TaxProfileStatus
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
+  productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
+  invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
+}
+
+export type TaxProfileCreateOrConnectWithoutClientsInput = {
+  where: Prisma.TaxProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaxProfileCreateWithoutClientsInput, Prisma.TaxProfileUncheckedCreateWithoutClientsInput>
+}
+
+export type TaxProfileUpsertWithoutClientsInput = {
+  update: Prisma.XOR<Prisma.TaxProfileUpdateWithoutClientsInput, Prisma.TaxProfileUncheckedUpdateWithoutClientsInput>
+  create: Prisma.XOR<Prisma.TaxProfileCreateWithoutClientsInput, Prisma.TaxProfileUncheckedCreateWithoutClientsInput>
+  where?: Prisma.TaxProfileWhereInput
+}
+
+export type TaxProfileUpdateToOneWithWhereWithoutClientsInput = {
+  where?: Prisma.TaxProfileWhereInput
+  data: Prisma.XOR<Prisma.TaxProfileUpdateWithoutClientsInput, Prisma.TaxProfileUncheckedUpdateWithoutClientsInput>
+}
+
+export type TaxProfileUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaxProfileTypeFieldUpdateOperationsInput | $Enums.TaxProfileType
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxNumberLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hsnSacRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  calculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
+  applicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumTaxProfileStatusFieldUpdateOperationsInput | $Enums.TaxProfileStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
+  components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
+  productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
+  invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
+}
+
+export type TaxProfileUncheckedUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaxProfileTypeFieldUpdateOperationsInput | $Enums.TaxProfileType
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxNumberLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hsnSacRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  calculationMode?: Prisma.EnumTaxCalculationModeFieldUpdateOperationsInput | $Enums.TaxCalculationMode
+  applicationLevel?: Prisma.EnumTaxApplicationLevelFieldUpdateOperationsInput | $Enums.TaxApplicationLevel
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumTaxProfileStatusFieldUpdateOperationsInput | $Enums.TaxProfileStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
+  productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
+  invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
+}
+
 export type TaxProfileCreateWithoutProductItemsInput = {
   id?: string
   name: string
@@ -897,6 +1034,7 @@ export type TaxProfileCreateWithoutProductItemsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
   components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
 }
@@ -920,6 +1058,7 @@ export type TaxProfileUncheckedCreateWithoutProductItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
 }
@@ -959,6 +1098,7 @@ export type TaxProfileUpdateWithoutProductItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
   components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
 }
@@ -982,6 +1122,7 @@ export type TaxProfileUncheckedUpdateWithoutProductItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
 }
@@ -1005,6 +1146,7 @@ export type TaxProfileCreateWithoutComponentsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
   productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
 }
@@ -1028,6 +1170,7 @@ export type TaxProfileUncheckedCreateWithoutComponentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
 }
@@ -1067,6 +1210,7 @@ export type TaxProfileUpdateWithoutComponentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
   productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
 }
@@ -1090,6 +1234,7 @@ export type TaxProfileUncheckedUpdateWithoutComponentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
 }
@@ -1114,6 +1259,7 @@ export type TaxProfileCreateWithoutInvoiceTaxProfilesInput = {
   company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
   components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemCreateNestedManyWithoutTaxProfileInput
 }
 
@@ -1137,6 +1283,7 @@ export type TaxProfileUncheckedCreateWithoutInvoiceTaxProfilesInput = {
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedCreateNestedManyWithoutTaxProfileInput
 }
 
@@ -1176,6 +1323,7 @@ export type TaxProfileUpdateWithoutInvoiceTaxProfilesInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
   components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
 }
 
@@ -1199,6 +1347,7 @@ export type TaxProfileUncheckedUpdateWithoutInvoiceTaxProfilesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
 }
 
@@ -1222,6 +1371,7 @@ export type TaxProfileCreateWithoutInvoiceLineItemsInput = {
   company: Prisma.CompanyCreateNestedOneWithoutTaxProfilesInput
   components?: Prisma.TaxRateComponentCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceCreateNestedManyWithoutInvoiceLevelTaxProfileInput
 }
 
@@ -1245,6 +1395,7 @@ export type TaxProfileUncheckedCreateWithoutInvoiceLineItemsInput = {
   updatedAt?: Date | string
   components?: Prisma.TaxRateComponentUncheckedCreateNestedManyWithoutTaxProfileInput
   productItems?: Prisma.ProductItemUncheckedCreateNestedManyWithoutDefaultTaxProfileInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutTaxProfileInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedCreateNestedManyWithoutInvoiceLevelTaxProfileInput
 }
 
@@ -1284,6 +1435,7 @@ export type TaxProfileUpdateWithoutInvoiceLineItemsInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxProfilesNestedInput
   components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
 }
 
@@ -1307,6 +1459,7 @@ export type TaxProfileUncheckedUpdateWithoutInvoiceLineItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
 }
 
@@ -1348,6 +1501,7 @@ export type TaxProfileUpdateWithoutCompanyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUpdateManyWithoutTaxProfileNestedInput
 }
@@ -1371,6 +1525,7 @@ export type TaxProfileUncheckedUpdateWithoutCompanyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   components?: Prisma.TaxRateComponentUncheckedUpdateManyWithoutTaxProfileNestedInput
   productItems?: Prisma.ProductItemUncheckedUpdateManyWithoutDefaultTaxProfileNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutTaxProfileNestedInput
   invoiceTaxProfiles?: Prisma.InvoiceUncheckedUpdateManyWithoutInvoiceLevelTaxProfileNestedInput
   invoiceLineItems?: Prisma.InvoiceLineItemUncheckedUpdateManyWithoutTaxProfileNestedInput
 }
@@ -1402,6 +1557,7 @@ export type TaxProfileUncheckedUpdateManyWithoutCompanyInput = {
 export type TaxProfileCountOutputType = {
   components: number
   productItems: number
+  clients: number
   invoiceTaxProfiles: number
   invoiceLineItems: number
 }
@@ -1409,6 +1565,7 @@ export type TaxProfileCountOutputType = {
 export type TaxProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   components?: boolean | TaxProfileCountOutputTypeCountComponentsArgs
   productItems?: boolean | TaxProfileCountOutputTypeCountProductItemsArgs
+  clients?: boolean | TaxProfileCountOutputTypeCountClientsArgs
   invoiceTaxProfiles?: boolean | TaxProfileCountOutputTypeCountInvoiceTaxProfilesArgs
   invoiceLineItems?: boolean | TaxProfileCountOutputTypeCountInvoiceLineItemsArgs
 }
@@ -1435,6 +1592,13 @@ export type TaxProfileCountOutputTypeCountComponentsArgs<ExtArgs extends runtime
  */
 export type TaxProfileCountOutputTypeCountProductItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProductItemWhereInput
+}
+
+/**
+ * TaxProfileCountOutputType without action
+ */
+export type TaxProfileCountOutputTypeCountClientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientWhereInput
 }
 
 /**
@@ -1473,6 +1637,7 @@ export type TaxProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   components?: boolean | Prisma.TaxProfile$componentsArgs<ExtArgs>
   productItems?: boolean | Prisma.TaxProfile$productItemsArgs<ExtArgs>
+  clients?: boolean | Prisma.TaxProfile$clientsArgs<ExtArgs>
   invoiceTaxProfiles?: boolean | Prisma.TaxProfile$invoiceTaxProfilesArgs<ExtArgs>
   invoiceLineItems?: boolean | Prisma.TaxProfile$invoiceLineItemsArgs<ExtArgs>
   _count?: boolean | Prisma.TaxProfileCountOutputTypeDefaultArgs<ExtArgs>
@@ -1545,6 +1710,7 @@ export type TaxProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   components?: boolean | Prisma.TaxProfile$componentsArgs<ExtArgs>
   productItems?: boolean | Prisma.TaxProfile$productItemsArgs<ExtArgs>
+  clients?: boolean | Prisma.TaxProfile$clientsArgs<ExtArgs>
   invoiceTaxProfiles?: boolean | Prisma.TaxProfile$invoiceTaxProfilesArgs<ExtArgs>
   invoiceLineItems?: boolean | Prisma.TaxProfile$invoiceLineItemsArgs<ExtArgs>
   _count?: boolean | Prisma.TaxProfileCountOutputTypeDefaultArgs<ExtArgs>
@@ -1562,6 +1728,7 @@ export type $TaxProfilePayload<ExtArgs extends runtime.Types.Extensions.Internal
     company: Prisma.$CompanyPayload<ExtArgs>
     components: Prisma.$TaxRateComponentPayload<ExtArgs>[]
     productItems: Prisma.$ProductItemPayload<ExtArgs>[]
+    clients: Prisma.$ClientPayload<ExtArgs>[]
     invoiceTaxProfiles: Prisma.$InvoicePayload<ExtArgs>[]
     invoiceLineItems: Prisma.$InvoiceLineItemPayload<ExtArgs>[]
   }
@@ -1980,6 +2147,7 @@ export interface Prisma__TaxProfileClient<T, Null = never, ExtArgs extends runti
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   components<T extends Prisma.TaxProfile$componentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxProfile$componentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaxRateComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   productItems<T extends Prisma.TaxProfile$productItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxProfile$productItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  clients<T extends Prisma.TaxProfile$clientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxProfile$clientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoiceTaxProfiles<T extends Prisma.TaxProfile$invoiceTaxProfilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxProfile$invoiceTaxProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoiceLineItems<T extends Prisma.TaxProfile$invoiceLineItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxProfile$invoiceLineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2474,6 +2642,30 @@ export type TaxProfile$productItemsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.ProductItemScalarFieldEnum | Prisma.ProductItemScalarFieldEnum[]
+}
+
+/**
+ * TaxProfile.clients
+ */
+export type TaxProfile$clientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Client
+   */
+  select?: Prisma.ClientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Client
+   */
+  omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  where?: Prisma.ClientWhereInput
+  orderBy?: Prisma.ClientOrderByWithRelationInput | Prisma.ClientOrderByWithRelationInput[]
+  cursor?: Prisma.ClientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientScalarFieldEnum | Prisma.ClientScalarFieldEnum[]
 }
 
 /**

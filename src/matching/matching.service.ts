@@ -117,7 +117,7 @@ export class BillMatchingService {
     const value = typeof search === 'string' ? search.trim() : '';
     const where: Record<string, unknown> = {
       companyId: membership.companyId,
-      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'OVERDUE'] },
+      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'ADVANCE_CREDIT', 'OVERDUE'] },
     };
 
     if (value) {
@@ -175,7 +175,7 @@ export class BillMatchingService {
 
     const where: Record<string, unknown> = {
       companyId: membership.companyId,
-      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'OVERDUE'] },
+      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'ADVANCE_CREDIT', 'OVERDUE'] },
     };
 
     if (clientId) {
@@ -406,7 +406,7 @@ export class BillMatchingService {
 
     const where: Record<string, unknown> = {
       companyId,
-      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'OVERDUE'] },
+      status: { in: ['FINALIZED', 'SENT', 'PAID', 'PARTIALLY_PAID', 'ADVANCE_CREDIT', 'OVERDUE'] },
     };
 
     const invoices = await (this.prisma as any).invoice.findMany({

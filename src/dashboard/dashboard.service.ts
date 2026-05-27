@@ -14,6 +14,7 @@ const invoiceStatuses = [
   'SENT',
   'PAID',
   'PARTIALLY_PAID',
+  'ADVANCE_CREDIT',
   'OVERDUE',
   'CANCELLED',
 ];
@@ -175,6 +176,7 @@ export class DashboardService {
         paidInvoices: invoiceCountMap.PAID || 0,
         finalizedInvoices: invoiceCountMap.FINALIZED || 0,
         partiallyPaidInvoices: invoiceCountMap.PARTIALLY_PAID || 0,
+        advanceCreditInvoices: invoiceCountMap.ADVANCE_CREDIT || 0,
         cancelledInvoices: invoiceCountMap.CANCELLED || 0,
         outstandingAmount: this.numberValue(outstandingAmount?._sum?.amountDue),
         overdueAmount: this.numberValue(overdueAmount?._sum?.amountDue),

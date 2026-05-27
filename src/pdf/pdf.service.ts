@@ -290,6 +290,7 @@ export class InvoicePdfService {
           <div class="summary-row summary-total"><span>Grand Total</span><span>${this.money(invoice.grandTotal, currency)}</span></div>
           <div class="summary-row"><span>Amount Paid</span><span class="strong">${this.money(invoice.amountPaid, currency)}</span></div>
           <div class="summary-row"><span>Amount Due</span><span class="strong">${this.money(invoice.amountDue, currency)}</span></div>
+          ${this.numberValue(invoice.creditAmount) > 0 ? `<div class="summary-row"><span>Advance / Credit</span><span class="strong">${this.money(invoice.creditAmount, currency)}</span></div>` : ''}
         </div>
       </section>
 
@@ -385,7 +386,7 @@ export class InvoicePdfService {
       UPI: 'UPI',
       CARD: 'Card',
       CHEQUE: 'Cheque',
-      ONLINE: 'Online',
+      ONLINE: 'Online Gateway',
       OTHER: 'Other',
     };
     return labels[value] || String(value || 'Payment').replace(/_/g, ' ');
